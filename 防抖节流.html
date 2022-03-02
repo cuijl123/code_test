@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<script>
+  // 防抖函数
+  function handle(args1,args2) {
+    console.log(args1 + args2);
+  }
+
+  function debounce(handler,delay = 300){
+     let timer = null
+     return function (...args) {
+      clearTimeout(timer)
+       timer = setTimeout(() => {
+         handler.apply(this, args)
+       }, delay);
+     }
+  } 
+
+  let func = debounce(handle, 1000)
+
+
+  // 节流函数
+  function throttle(handler,delay = 300) {
+    let lastTime = 0
+    return function (...args) {
+      let nowTime = new Date().getTime()
+      if(nowTime - lastTime > delay){
+        handler.apply(this, args)
+        lastTime = nowTime
+      }
+    }
+  }
+
+  let func2 = throttle(handle, 2000)
+
+</script>
+<body>
+  <input id="input" oninput="func('run', '防抖')"> </br>
+  <button onclick="func2('run', '节流')">点我</button>
+</body>
+</html>

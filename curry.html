@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<script>
+
+//通用柯里化函数
+function curry(func) {
+    // 存储已传入参数
+    let _args = [];
+  return function _curry (...args) {
+        if (args.length === 0) {
+            return func.apply(this, _args);
+        }
+        _args = _args.concat(args)
+       return _curry
+ 
+    }
+  }
+ 
+  // 测试代码
+function add1(a, b, c) {
+    return a + b + c;
+  }
+  function reduce(a, b, c) {
+    return a - b - c;
+  }  
+  let testAdd = curry(add1);
+  let testReduce = curry(reduce);
+   
+  //参数复用,提前返回,延迟执行
+  console.log(testAdd(1)(2)(3)()); //6
+  console.log(testReduce(3)(2)); // f_curry(){}
+  console.log(testReduce(0)());  //1
+</script>
+<body>
+</body>
+</html>
