@@ -8,19 +8,26 @@
 </head>
 <script>
 
+// 1. 请实现一个 add 函数，满足以下功能。
+// add(1);       // 1
+// add(1)(2);    // 3
+// add(1)(2)(3); // 6
+// add(1)(2, 3); // 6
+// add(1, 2)(3); // 6
+// add(1, 2, 3); // 6
+
+
 function add(...args) {
-    // 存储结果
-    let result = null;
-  return function _curry () {
-        if (args.length === 0) {
-            return func.apply(this, _args);
-        }
-        _args = _args.concat(args)
-       return _curry
- 
-    }
-  }
-   
+    let sum = args.reduce((total,current)=> total+current)
+    let tmp = function (...args1) {
+      sum += args1.reduce((total,current)=> total+current)
+      return tmp;
+    };
+    tmp.toString = function () {
+        return sum;
+    };
+    return tmp;
+} 
   console.log(add(1)); //1
   console.log(add(1)(2)); //3
   console.log(add(1)(2)(3)); //6
